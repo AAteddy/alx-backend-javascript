@@ -1,8 +1,8 @@
-### ES6 - Promises
+# ES6 - Promises
 
 Here in this project I am going to explore and get hands on practice on JS ES6 Promise, Await, Async and Throw/Try.
 
-# Throughout of the project I am expected to learn and explain to anyone:
+### Throughout of the project I am expected to learn and explain to anyone:
 
 <ul>
 <li>Promises (how, why, and what)</li>
