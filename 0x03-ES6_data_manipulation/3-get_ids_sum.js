@@ -1,3 +1,3 @@
 export default function getStudentIdsSum(arrayList) {
-    return  arrayList.reduce((sum, student) => sum + parseInt(student.id), 0);
+  return arrayList.reduce((sum, student) => sum + student.id, 0);
 }
