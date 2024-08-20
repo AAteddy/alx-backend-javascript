@@ -1,51 +1,33 @@
 const fs = require('fs');
 
 function countStudents(path) {
-  try {
-    const data = fs.readFileSync(path, 'utf8');
-    const lines = data.split('\n').filter(line => line.trim() !== '');
+  if (!fs.existsSync(path)) {
+    throw new Error('Cannot load the database');
+  }
 
-    if (lines.length <= 1) {
-      throw new Error('Cannot load the database');
-    }
-
-    let totalStudents = 0;
-    const studentsByField = {};
-
-    for (let i = 1; i < lines.length; i += 1) {
-      const line = lines[i];
-      const studentData = line.split(',');
-
-      if (studentData.length !== 4) {
-        continue;
+  const data = fs.readFileSync(path, 'utf8');
+  const lines = data.split('\n');
+  const hashtable = {};
+  let students = -1;
+  for (const line of lines) {
+    if (line.trim() !== '') {
+      const columns = line.split(',');
+      const field = columns[3];
+      const firstname = columns[0];
+      if (students >= 0) {
+        if (!Object.hasOwnProperty.call(hashtable, field)) {
+          hashtable[field] = [];
+        }
+        hashtable[field] = [...hashtable[field], firstname];
       }
-
-      const field = studentData[3].trim();
-      const firstname = studentData[0].trim();
-
-      totalStudents += 1;
-
-      if (!studentsByField[field]) {
-        studentsByField[field] = {
-          count: 0,
-          names: [],
-        };
-      }
-
-      studentsByField[field].count += 1;
-      studentsByField[field].names.push(firstname);
+      students += 1;
     }
-
-    console.log(`Number of students: ${totalStudents}`);
-
-    for (const field in studentsByField) {
-      if (studentsByField.hasOwnProperty(field)) {
-        const { count, names } = studentsByField[field];
-        console.log(`Number of students in ${field}: ${count}. List: ${names.join(', ')}`);
-      }
+  }
+  console.log(`Number of students: ${students}`);
+  for (const key in hashtable) {
+    if (Object.hasOwnProperty.call(hashtable, key)) {
+      console.log(`Number of students in ${key}: ${hashtable[key].length}. List: ${hashtable[key].join(', ')}`);
     }
-  } catch (error) {
-    console.error('Cannot load the database');
   }
 }
 
