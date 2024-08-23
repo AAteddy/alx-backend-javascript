@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const expect = require('chai').expect;
-const Utils = require('./utils');
-const sendPaymentRequestToApi = require('./4-payment');
+const Utils = require('./utils'); // Import the Utils module
+const sendPaymentRequestToApi = require('./4-payment'); // Import the function to be tested
 
 describe('sendPaymentRequestToApi', function() {
   it('should stub Utils.calculateNumber and spy on console.log', function() {
